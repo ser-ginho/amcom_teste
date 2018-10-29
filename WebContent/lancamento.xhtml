@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<div id="divCadastro">
+		<p:link href="index.xhtml">Início</p:link>
+		
+		<h2>Cadastro de Lançamento</h2>
+		
+		<h:form>
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<p:outputLabel value="Data Inicial:" />
+					
+					<p:calendar value="#{lancamentoController.lancamento.dataInicial}" 
+							pattern="dd/MM/yyyy HH:mm:ss" required="true" />
+					
+					<p:outputLabel value="Data Final:" />
+					
+					<p:calendar value="#{lancamentoController.lancamento.dataFinal}" 
+							pattern="dd/MM/yyyy HH:mm:ss" required="true" />
+					
+					<p:outputLabel value="Observação:" />
+					
+					<p:inputTextarea value="#{lancamentoController.lancamento.observacao}" />
+					
+					<p:spacer />
+					
+					<p:commandButton value="Cadastrar" action="#{lancamentoController.salvar}" update="@form, listaLancamentos" />
+				</p:panelGrid>
+				
+				<p:panelGrid>
+					<p:selectManyMenu id="disponiveis"
+							value="#{lancamentoController.listaItemSelecionados}" >
+						<f:selectItems value="#{itemController.listaItem}" var="item"
+							itemLabel="#{item.descricao}" itemValue="#{item.oid}" />
+					</p:selectManyMenu>
+				</p:panelGrid>
+			</p:panelGrid>
+       	</h:form>
+	</div>
+	
+	<p:separator />
+	
+	<div id="divLista">
+		<h2>Lista de Itens</h2>
+		
+		<p:dataTable id="listaLancamentos"
+				emptyMessage="Não há lançamentos!"
+				value="#{lancamentoController.listaLancamento}" 
+				var="lancamento" styleClass="order-table"
+				headerClass="order-table-header"
+				rowClasses="order-table-odd-row,order-table-even-row" 
+				paginator="true" rows="10" >
+			
+			<p:column headerText="Código">
+				<h:outputText value="#{lancamento.oid}" />
+			</p:column>
+			
+			<p:column headerText="Data Inicial" >
+				<h:outputText value="#{lancamento.dataInicial}" />
+			</p:column>
+			
+			<p:column headerText="Data Final" >
+				<h:outputText value="#{lancamento.dataFinal}" />
+			</p:column>
+			
+			<p:column headerText="Itens" >
+				<p:dataTable id="listaItens"
+						emptyMessage="Não há itens!"
+						value="#{lancamento.listaItem}" 
+						var="item" styleClass="order-table"
+						headerClass="order-table-header"
+						rowClasses="order-table-odd-row,order-table-even-row" >
+					<p:column headerText="Código">
+						<h:outputText value="#{item.oid}" />
+					</p:column>
+					
+					<p:column headerText="Descrição" >
+						<h:outputText value="#{item.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Valor" >
+						<h:outputText value="#{item.valor}" />
+					</p:column>
+					
+					<p:column>
+						<h:form>
+							<p:commandButton value="Excluir" 
+									action="#{lancamentoController.removerItem(item.oid, lancamento.oid)}" 
+									update="listaLancamentos" />
+						</h:form>
+					</p:column>
+				</p:dataTable>
+			</p:column>
+			
+			<p:column headerText="Valor Total" >
+				<h:outputText value="#{lancamento.valorTotal}" />
+			</p:column>
+			
+			<p:column>
+				<h:form>
+					<p:commandButton value="Excluir" 
+							action="#{lancamentoController.remover(lancamento.oid)}" 
+							update="listaLancamentos" />
+				</h:form>
+			</p:column>
+		</p:dataTable>       
+	</div>
+</h:body>
+</html>

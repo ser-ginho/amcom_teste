@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<div id="divCadastro">
+		<p:link href="index.xhtml">Início</p:link>
+		
+		<h2>Cadastro de Item</h2>
+		
+		<h:form>
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:outputLabel value="Descrição:" />
+				
+				<p:inputText title="Descrição do Item" value="#{itemController.item.descricao}" required="true" />
+				
+				<p:outputLabel value="Valor:" />
+				
+				<p:inputText value="#{itemController.item.valor}" required="true" />
+				
+				<p:spacer />
+				
+				<p:commandButton value="Cadastrar" action="#{itemController.salvar}" update="@form, listaItens" />
+			</p:panelGrid>
+       	</h:form>
+	</div>
+	
+	<p:separator />
+	
+	<div id="divLista">
+		<h2>Lista de Itens</h2>
+		
+		<p:dataTable id="listaItens"
+				emptyMessage="Não há itens!"
+				value="#{itemController.listaItem}" 
+				var="i" styleClass="order-table"
+				headerClass="order-table-header"
+				rowClasses="order-table-odd-row,order-table-even-row" 
+				paginator="true" rows="10" >
+			<p:column headerText="Código">
+				<h:outputText value="#{i.oid}" />
+			</p:column>
+			
+			<p:column headerText="Descrição" sortBy="#{i.descricao}"
+					filterBy="#{i.descricao}" 
+					filterMatchMode="exact" >
+				<h:outputText value="#{i.descricao}" />
+			</p:column>
+			
+			<p:column headerText="Valor" >
+				<h:outputText value="#{i.valor}" />
+			</p:column>
+			
+			<p:column>
+				<h:form>
+					<p:commandButton value="Excluir" 
+							action="#{itemController.remover(i.oid)}" 
+							update="listaItens" />
+				</h:form>
+			</p:column>
+		</p:dataTable>       
+	</div>
+</h:body>
+</html>

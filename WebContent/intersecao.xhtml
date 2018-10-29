@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<p:messages autoUpdate="true" />
+	
+	<div id="divCadastro">
+		<p:link href="index.xhtml">Início</p:link>
+		
+		<h2>Verificar Interseção</h2>
+		
+		<h:form>
+			<p:panelGrid columns="3" styleClass="ui-noborder">
+				<p:outputLabel value="Faixa 1" />
+				
+				<p:inputText value="#{intersecaoController.faixa1Valor1}" required="true" />
+				
+				<p:inputText value="#{intersecaoController.faixa1Valor2}" required="true" />
+				
+				<p:outputLabel value="Faixa 2:" />
+				
+				<p:inputText value="#{intersecaoController.faixa2Valor1}" required="true" />
+				
+				<p:inputText value="#{intersecaoController.faixa2Valor2}" required="true" />
+				
+				<p:commandButton value="Verificar" action="#{intersecaoController.verificar}" />
+			</p:panelGrid>
+       	</h:form>
+	</div>	
+</h:body>
+</html>
